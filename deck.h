@@ -42,8 +42,8 @@ public:
 
     Card deal()
     {
-        Card card = cards.back();
-        cards.pop_back();
+        Card card = this->cards.back();
+        this->cards.pop_back();
         return card;
     }
 };
