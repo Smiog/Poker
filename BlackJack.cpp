@@ -12,7 +12,7 @@ struct Player
 
 int main()
 {
-	system("color 03");
+	system("color 0f");
 	printf("--------- Black Jack ---------\n\n");
 	
 	Deck dick;
@@ -23,22 +23,25 @@ int main()
 	if (rnd() & 1)
 		swap(wo, ni);
 	printf("\n\n    ");
-	cout << wo.name << " is Dad.";
+	cout << wo.name << " is ^DAD^.";
 	printf("\n    ");
-	cout << ni.name << " is Son.\n\n------------------------------\n\n";
+	cout << ni.name << " is _son_.\n\n------------------------------\n\n";
 	system("pause");
 	wo.money = ni.money = 800;
+	wo.money += (rnd() % 30) * 10;
 	int tott = 0;
+	system("color 03");
+	
 	while (wo.money > 0 && ni.money > 0)
 	{
 		system("cls");
 		printf("---------- Round %2d ----------\n\n", ++tott);
 		wo.c.clear(), ni.c.clear();
 		
-		cout << "Dad = " << wo.money << "    " << wo.name << endl;
-		cout << "Son = " << ni.money << "    " << ni.name << "\n\n\n";
+		cout << "^DAD^ = " << wo.money << "    " << wo.name << endl;
+		cout << "_son_ = " << ni.money << "    " << ni.name << "\n\n\n";
 		
-		cout << "Son " << ni.name << ", how many will you bet?\n";
+		cout << "_son_ " << ni.name << ", how many will you bet?\n";
 		int a[4] = {ni.money / 10, ni.money / 4, ni.money / 2, ni.money};
 		printf("    Choose from: %d | %d | %d | %d --- ", a[0], a[1], a[2], a[3]);
 		int a1;
@@ -48,27 +51,18 @@ int main()
 			printf("\n    Fuck you! Choose from: %d | %d | %d | %d --- ", a[0], a[1], a[2], a[3]);
 			cin >> a1;
 		}
-		cout << "\n       Son -= " << a1 << endl;
+		cout << "\n       _son_ -= " << a1 << endl;
 		ni.money -= a1;
-		cout << "\nDad " << wo.name << ", then how many will you bet?\n";
-		int b[4] = {wo.money / 10, wo.money / 4, wo.money / 2, wo.money};
-		printf("    Choose from: %d | %d | %d | %d --- ", b[0], b[1], b[2], b[3]);
-		int a0;
-		cin >> a0;
-		while (a0 != b[0] && a0 != b[1] && a0 != b[2] && a0 != b[3])
-		{
-			printf("\n    Fuck you! Choose from: %d | %d | %d | %d --- ", b[0], b[1], b[2], b[3]);
-			cin >> a0;
-		}
-		cout << "\n       Dad -= " << a0 << endl;
-		wo.money -= a0;
+		cout << "       ^DAD^ -= " << a1 << endl
+		<< endl;
+		wo.money -= a1;
 		system("pause");
 		
 		system("cls");
 		printf("---------- Game running ----------\n\n");
 		
-		cout << "Dad = " << wo.money << "    " << wo.name << endl;
-		cout << "Son = " << ni.money << "    " << ni.name << "\n\n\n";
+		cout << "^DAD^ = " << wo.money << "    " << wo.name << endl;
+		cout << "_son_ = " << ni.money << "    " << ni.name << "\n\n\n";
 		
 		dick.init();
 		dick.shuffle(time(0));
@@ -86,12 +80,12 @@ int main()
 			ni.c.pop_back(), ni.c.push_back({10, 0});
 		ni.tot = wo.tot = 0;
 		
-		cout << " Hey son " << ni.name << ", you've got:\n\n";
+		cout << " Hey _son_ " << ni.name << ", you've got:\n\n";
 		for (auto x : ni.c)
 			cout << " | " << x.getPoint(), ni.tot += x.getPoint();
 		cout << " |      total : " << ni.tot << "     ";
 		system("pause");
-		cout << "\n\n Hey dad " << wo.name << ", you've got:\n\n";
+		cout << "\n\n Hey ^DAD^ " << wo.name << ", you've got:\n\n";
 		cout << " | " << wo.c[0].getPoint() << " |     ";
 		wo.tot += wo.c[0].getPoint();
 		
@@ -99,43 +93,43 @@ int main()
 		{
 			if (ni.tot > 21)
 			{
-				cout << "\n\n Son, you bomb!" << "\n------------------\n";
-				cout << "Son -= " << a1 << endl;
-				cout << "Dad += " << a0 + a1 << endl;
-				ni.money -= a1;
-				wo.money += a0 + a1;
+				cout << "\n\n     _son_, you bomb!" << "\n------------------\n";
+				cout << "_son_ -= " << a1 / 2 << endl;
+				ni.money -= a1 / 2;
+				cout << "^DAD^ += " << a1 * 2 << endl;
+				wo.money += a1 * 2;
 			}
 			if (wo.tot > 21)
 			{
-				cout << "\n\n Dad, you bomb!" << "\n------------------\n";
-				cout << "Dad -= " << a0 << endl;
-				cout << "Son += " << a0 + a1 << endl;
-				wo.money -= a0;
-				ni.money += a0 + a1;
+				cout << "\n\n     ^DAD^, you bomb!" << "\n------------------\n";
+				cout << "^DAD^ -= " << a1 / 2 << endl;
+				wo.money -= a1 / 2;
+				cout << "_son_ += " << a1 * 2 << endl;
+				ni.money += a1 * 2;
 			}
 			else if (ni.tot == wo.tot)
 			{
 				cout << "OK... You are the same." << "\n------------------\n";
+				cout << "_son_ += " << a1 / 2 << endl;
+				cout << "^DAD^ += " << a1 / 2 << endl;
+				wo.money += a1 / 2;
+				ni.money += a1 / 2;
 			}
 			else if (ni.tot < wo.tot)
 			{
-				cout << "\n\n Dad " << wo.name << " is closer to 21 ~" << "\n------------------\n";
-				cout << "Son -= " << a1 << endl;
-				cout << "Dad += " << a0 + a1 << endl;
-				ni.money -= a1;
-				wo.money += a0 + a1;
+				cout << "\n\n ^DAD^ " << wo.name << " is closer to 21 ~" << "\n------------------\n";
+				cout << "^DAD^ += " << a1 * 2 << endl;
+				wo.money += a1 * 2;
 			}
 			else
 			{
-				cout << "\n\n Son " << ni.name << " is closer to 21 ~" << "\n------------------\n";
-				cout << "Dad -= " << a0 << endl;
-				cout << "Son += " << a0 + a1 << endl;
-				wo.money -= a0;
-				ni.money += a0 + a1;
+				cout << "\n\n _son_ " << ni.name << " is closer to 21 ~" << "\n------------------\n";
+				cout << "_son_ += " << a1 * 2 << endl;
+				ni.money += a1 * 2;
 			}
 		};
 		
-		cout << "\n\n My Son " << ni.name << ", take(1) or see(0)? -- ";
+		cout << "\n\n My _son_ " << ni.name << ", take(1) or see(0)? -- ";
 		int x;
 		cin >> x;
 		cout << endl;
@@ -155,18 +149,18 @@ int main()
 		}
 		if (ni.tot > 21)
 		{
-			cout << "\n\n Haha, " << ni.name << ", you bomb!" << "\n------------------\n";
-			cout << "Son -= " << a1 << endl;
-			cout << "Dad += " << a0 + a1 << endl;
-			ni.money -= a1;
-			wo.money += a0 + a1;
+			cout << "\n\n WoW, " << ni.name << ", you bomb!" << "\n------------------\n";
+			cout << "_son_ -= " << a1 / 2 << endl;
+			ni.money -= a1 / 2;
+			cout << "^DAD^ += " << a1 * 2 << endl;
+			wo.money += a1 * 2;
 			system("pause");
 			continue;
 		}
 		
 		system("pause");
 		
-		cout << "\n For dad ...\n";
+		cout << "\n For ^DAD^ ...\n";
 		for (auto x : wo.c)
 			cout << " | " << x.getPoint();
 		wo.tot += wo.c[1].getPoint();
@@ -195,18 +189,19 @@ int main()
 	}
 	
 	system("cls");
+	system("color 06");
 	printf("---------- Game Over! ----------\n\n");
 	
-	cout << "Dad = " << wo.money << "    " << wo.name << endl;
-	cout << "Son = " << ni.money << "    " << ni.name << "\n\n\n";
+	cout << "^DAD^ = " << wo.money << "    " << wo.name << endl;
+	cout << "_son_ = " << ni.money << "    " << ni.name << "\n\n\n";
 	
 	if (wo.money <= 0)
-		cout << "    " << wo.name << " sold his house, his wife, his son to bet, but went out with " << wo.money << "...\n Congratulate to " << ni.name << "!!!\n\n";
+		cout << "----" << wo.name << " committed suicide with " << wo.money << "...\n----Congratulate to " << ni.name << "!!!\n\n";
+
 	if (ni.money <= 0)
-		cout << "    " << ni.name << " sold his house, his wife, his son to bet, but went out with " << ni.money << "...\n    Congratulate to " << wo.name << "!!!\n\n";
-	
+		cout << "----" << ni.name << " committed suicide with " << ni.money << "...\n----Congratulate to " << wo.name << "!!!\n\n";
+
 	system("pause");
 	
 	return 0;
 }
-
